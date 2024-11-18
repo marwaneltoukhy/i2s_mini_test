@@ -1,12 +1,12 @@
 ###############################################################################
 # Created by write_sdc
-# Sun Nov 10 14:01:20 2024
+# Mon Nov 18 16:06:45 2024
 ###############################################################################
 current_design user_project_wrapper_mini4
 ###############################################################################
 # Timing Constraints
 ###############################################################################
-create_clock -name clk -period 30.0000 [get_ports {wb_clk_i}]
+create_clock -name clk -period 40.0000 [get_ports {wb_clk_i}]
 set_clock_transition 0.1500 [get_clocks {clk}]
 set_clock_uncertainty 0.2500 clk
 set_propagated_clock [get_clocks {clk}]
@@ -420,6 +420,14 @@ set_output_delay 0.0000 -clock [get_clocks {clk}] -min -add_delay [get_ports {wb
 set_output_delay 10.0000 -clock [get_clocks {clk}] -max -add_delay [get_ports {wbs_dat_o[8]}]
 set_output_delay 0.0000 -clock [get_clocks {clk}] -min -add_delay [get_ports {wbs_dat_o[9]}]
 set_output_delay 10.0000 -clock [get_clocks {clk}] -max -add_delay [get_ports {wbs_dat_o[9]}]
+set_multicycle_path -hold\
+    -through [list [get_ports {wbs_ack_o}]\
+           [get_ports {wbs_cyc_i}]\
+           [get_ports {wbs_stb_i}]] 1
+set_multicycle_path -setup\
+    -through [list [get_ports {wbs_ack_o}]\
+           [get_ports {wbs_cyc_i}]\
+           [get_ports {wbs_stb_i}]] 2
 ###############################################################################
 # Environment
 ###############################################################################
